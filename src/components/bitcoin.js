@@ -43,7 +43,6 @@ class Bitcoin extends Component{
             priceDifference = (prices[prices.length - 1].price - prices[prices.length - 2].price).toFixed(4);
             priceDifference > 0 ? symbolDifference = "+": symbolDifference = "-";
         }
-        console.log('price',prices);
 
         return(
             <div className="bitcoinComp">
