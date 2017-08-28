@@ -35,10 +35,16 @@
 .currentPrice{
     font-size: small;
 }
-.priceDifference{
+.pos,.neg{
     font-size: small;
     display: flex;
     justify-content: flex-end;
+}
+.pos{
+    color: #1bb76e;
+}
+.neg{
+    color: #DB3535;
 }
 .disclaimer {
     font-size: x-small;

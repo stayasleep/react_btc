@@ -40,8 +40,8 @@ class Bitcoin extends Component{
         let priceDifference;
         let symbolDifference;
         if(prices.length !== 0) {
-            priceDifference = prices[prices.length - 1].price - prices[prices.length - 2].price;
-            priceDifference > 0 ? symbolDifference = "+" : symbolDifference = "-";
+            priceDifference = (prices[prices.length - 1].price - prices[prices.length - 2].price).toFixed(4);
+            priceDifference > 0 ? symbolDifference = "+": symbolDifference = "-";
         }
         console.log('price',prices);
 
@@ -57,7 +57,7 @@ class Bitcoin extends Component{
                                 ) : (
                                     <div>
                                         <p className="currentPrice"> Current Price: {priceFormat(prices[prices.length-1].price)}</p>
-                                        <div className="priceDifference">{symbolDifference}{priceDifference}</div>
+                                        <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
                                     </div>
                                 )
                             }
@@ -65,7 +65,7 @@ class Bitcoin extends Component{
                         <Chart
                             width={chartWidth}
                             height={chartHeight}
-                            data={this.props.btc.history}
+                            prices = {prices}
                         />
                     </div>
                     <div className="disclaimer">{this.props.disclaimer}</div>
