@@ -16,7 +16,6 @@ class Chart extends Component {
     }
 
     render() {
-        console.log('chart prop', this.props);
         const { height, hideTooltip, prices, showTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop, width } = this.props;
         const margin = {
             top: 30,
@@ -30,7 +29,7 @@ class Chart extends Component {
         const bisectDate = bisector(d => x(d)).left;
 
         if (prices.length === 0) return null;
-        const x = d => new Date(d.day); //for each x point
+        const x = d => new Date(d.day); //for each x point, formatted date
         const y = d => d.price; //for each y point
         const firstPoint = prices[0];
         const currentPoint = prices[prices.length - 1];
@@ -55,12 +54,11 @@ class Chart extends Component {
                 price: minPrice
             }
         ];
-
+        //sets the width to the component and gets the min/max x values for axis
         const xScale = scaleTime({
             range: [0, width],
             domain: [Math.min(...prices.map(x)), Math.max(...prices.map(x))]
         });
-        console.log('x', xScale.domain());
         const yScale = scaleLinear({
             range: [childHeight, 0],
             domain: [minPrice, maxPrice]

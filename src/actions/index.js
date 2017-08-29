@@ -16,7 +16,7 @@ export function btcPriceIndex(){
 export function btcHistorical(){
     return function (dispatch){
         axios.get("https://api.coindesk.com/v1/bpi/historical/close.json").then((response) =>{
-            console.log('historical',response);
+            //console.log('historical',response);
             if(Object.keys(response.data.bpi).length === 31){
                 dispatch({
                     type: BTC_HISTORICAL,

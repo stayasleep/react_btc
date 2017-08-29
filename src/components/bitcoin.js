@@ -5,12 +5,10 @@ import { connect } from 'react-redux';
 import { btcPriceIndex, btcHistorical } from '../actions/index';
 import priceFormat from '../utilities/price_format';
 import Chart from './chart';
-import { withTooltip, Tooltip } from '@vx/tooltip';
 
 
 class Bitcoin extends Component{
     componentDidMount(){
-        // this.props.btcPriceIndex();
         this.props.btcHistorical();
     }
 
@@ -30,7 +28,6 @@ class Bitcoin extends Component{
 
     render(){
         const { screenWidth, screenHeight } = this.props; //gets screen size from HOC wSS
-        console.log('btc prop',this.props);
         const chartWidth = screenWidth*0.6;
         const chartHeight = screenHeight*0.8;
 
