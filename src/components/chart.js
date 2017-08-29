@@ -19,7 +19,7 @@ class Chart extends Component {
         console.log('chart prop', this.props);
         const { height, hideTooltip, prices, showTooltip, tooltipData, tooltipLeft, tooltipOpen, tooltipTop, width } = this.props;
         const margin = {
-            top: 15,
+            top: 30,
             right: 0,
             bottom: 45,
             left: 0,

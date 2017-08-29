@@ -52,12 +52,14 @@ class Bitcoin extends Component{
                 <div className="center">
                     <div className="chartContainer" style={{width:`${chartWidth}px`, height:`${chartHeight}px`}}>
                         <div className="title">
+                            <div className="btcTitle">
                             Bitcoin Price Chart
+                            </div>
                             {Object.keys(this.props.btc).length === 0 ? (
                                     <p> Loading...</p>
                                 ) : (
                                     <div className="currentAndDifference">
-                                        <p className="currentPrice"> Current Price: {priceFormat(prices[prices.length-1].price)}</p>
+                                        <div className="currentPrice"> Current Price: {priceFormat(prices[prices.length-1].price)}</div>
                                         <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
                                     </div>
                                 )
