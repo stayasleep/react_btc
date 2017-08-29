@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { btcPriceIndex, btcHistorical } from '../actions/index';
 import priceFormat from '../utilities/price_format';
 import Chart from './chart';
+import { withTooltip, Tooltip } from '@vx/tooltip';
+
 
 class Bitcoin extends Component{
     componentDidMount(){
@@ -54,7 +56,7 @@ class Bitcoin extends Component{
                             {Object.keys(this.props.btc).length === 0 ? (
                                     <p> Loading...</p>
                                 ) : (
-                                    <div>
+                                    <div className="currentAndDifference">
                                         <p className="currentPrice"> Current Price: {priceFormat(prices[prices.length-1].price)}</p>
                                         <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
                                     </div>
