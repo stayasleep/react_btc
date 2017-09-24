@@ -26,3 +26,43 @@ export function btcHistorical(){
         })
     }
 }
+
+const BASE = "http://localhost:8080/react_btc/data.php";
+
+export function ethOHLC(){
+    let config = {
+        params: {
+            periods: 180
+        }
+    };
+    let data ={
+        url: "https://api.cryptowat.ch/markets/gdax/ethusd/ohlc",
+        periods: 180,
+    };
+    //
+    // let today = new Date();
+    // today = today.getTime(); //unix time in milliseconds
+    // let monthAgo = 2678400000; //one month in milliseconds
+    // let desiredTime = today - monthAgo;
+    // let formatTime = new Date(desiredTime);
+    // console.log('form me',formatTime);
+
+    return function(dispatch){
+        axios.post(`${BASE}`, data).then((response) =>{
+            let data = JSON.parse(response.data);
+            let result = data.result;
+            console.log('mmm',result[180]);
+        }).catch(err=>{
+            console.log('my errr',err);
+        })
+    }
+}
+// const url = "https://api.cryptowat.ch/markets/gdax/ethusd/ohlc";
+//
+// export function ethOHLC(){
+//     return function(dispatch){
+//         axios.get(`${url}?periods=180`).then((response) => {
+//             console.log('eth',response);
+//         })
+//     }
+// }

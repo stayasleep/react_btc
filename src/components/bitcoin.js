@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withScreenSize } from '@vx/responsive';
 import { LinearGradient} from '@vx/gradient';
 import { connect } from 'react-redux';
-import { btcPriceIndex, btcHistorical } from '../actions/index';
+import { btcPriceIndex, btcHistorical, ethOHLC } from '../actions/index';
 import priceFormat from '../utilities/price_format';
 import Chart from './chart';
 
@@ -10,6 +10,7 @@ import Chart from './chart';
 class Bitcoin extends Component{
     componentDidMount(){
         this.props.btcHistorical();
+        this.props.ethOHLC();
     }
 
     background(width, height){
@@ -81,4 +82,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps,{btcPriceIndex, btcHistorical})(withScreenSize(Bitcoin));
+export default connect(mapStateToProps,{btcPriceIndex, btcHistorical, ethOHLC})(withScreenSize(Bitcoin));
