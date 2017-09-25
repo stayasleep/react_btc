@@ -65,7 +65,7 @@ class Bitcoin extends Component{
                     <div className="chartContainer" style={{width:`${chartWidth}px`, height:`${chartHeight}px`}}>
                         <div className="title">
                             <div className="btcTitle">
-                            Bitcoin Price Chart
+                                {!this.state.onETH ?"Bitcoin Price Chart":"Ethereum 24HR Price Chart"}
                             </div>
                             {Object.keys(this.props.btc).length === 0 ? (
                                     <p> Loading...</p>
@@ -93,8 +93,19 @@ class Bitcoin extends Component{
 
                     </div>
                     <div>
-                        <div className="disclaimer">{this.props.disclaimer}</div>
-                        <div className="disclaimer eth" onClick={this.switchCharts}>Switch to Eth</div>
+                        {!this.state.onETH ?
+                            (
+                                <div>
+                                    <div className="disclaimer">{this.props.disclaimer}</div>
+                                    < div className = "disclaimer eth" onClick={this.switchCharts}>Switch to Ethereum</div>
+                                </div>
+                            ): (
+                                <div>
+                                    <div className="disclaimer">{this.props.ethDisclaimer}</div>
+                                    <div className="disclaimer eth" onClick={this.switchCharts}>Switch to Bitcoin</div>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
@@ -104,7 +115,8 @@ class Bitcoin extends Component{
 function mapStateToProps(state) {
     return{
         btc: state.bitState.history,
-        disclaimer: state.bitState.disclaimer
+        disclaimer: state.bitState.disclaimer,
+        ethDisclaimer: state.ethState.disclaimer
     }
 }
 
