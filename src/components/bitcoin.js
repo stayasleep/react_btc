@@ -5,12 +5,25 @@ import { connect } from 'react-redux';
 import { btcPriceIndex, btcHistorical, ethOHLC } from '../actions/index';
 import priceFormat from '../utilities/price_format';
 import Chart from './chart';
-
+import Eth from './eth';
 
 class Bitcoin extends Component{
+    constructor(props){
+        super(props);
+        this.state={onETH: false};
+        this.switchCharts = this.switchCharts.bind(this);
+    }
+
+    switchCharts(){
+        console.log('switch lol');
+        this.setState({onETH: !this.state.onETH});
+    }
+
+
+
     componentDidMount(){
         this.props.btcHistorical();
-        this.props.ethOHLC();
+        // this.props.ethOHLC();
     }
 
     background(width, height){
@@ -31,6 +44,7 @@ class Bitcoin extends Component{
         const { screenWidth, screenHeight } = this.props; //gets screen size from HOC wSS
         const chartWidth = screenWidth*0.6;
         const chartHeight = screenHeight*0.8;
+        console.log('my bit',this.props.btc);
 
         const prices = Object.keys(this.props.btc).map((day) =>{
             return(
@@ -63,13 +77,25 @@ class Bitcoin extends Component{
                                 )
                             }
                         </div>
-                        <Chart
-                            width={chartWidth}
-                            height={chartHeight}
-                            prices = {prices}
-                        />
+                        {!this.state.onETH ? (
+                                <Chart
+                                    width={chartWidth}
+                                    height={chartHeight}
+                                    prices={prices}
+                                />
+                            ) : (
+                                <Eth
+                                    width={chartWidth}
+                                    height={chartHeight}
+                                />
+                            )
+                        }
+
                     </div>
-                    <div className="disclaimer">{this.props.disclaimer}</div>
+                    <div>
+                        <div className="disclaimer">{this.props.disclaimer}</div>
+                        <div className="disclaimer eth" onClick={this.switchCharts}>Switch to Eth</div>
+                    </div>
                 </div>
             </div>
         )

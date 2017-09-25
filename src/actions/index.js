@@ -2,6 +2,7 @@ import axios from 'axios';
 import
     {
         BTC_HISTORICAL,
+        ETH_24HRS,
     }
     from './types';
 
@@ -16,7 +17,8 @@ export function btcPriceIndex(){
 export function btcHistorical(){
     return function (dispatch){
         axios.get("https://api.coindesk.com/v1/bpi/historical/close.json").then((response) =>{
-            //console.log('historical',response);
+            console.log('historical',response.data.bpi.length);
+
             if(Object.keys(response.data.bpi).length === 31){
                 dispatch({
                     type: BTC_HISTORICAL,
@@ -30,11 +32,6 @@ export function btcHistorical(){
 const BASE = "http://localhost:8080/react_btc/data.php";
 
 export function ethOHLC(){
-    let config = {
-        params: {
-            periods: 180
-        }
-    };
     let data ={
         url: "https://api.cryptowat.ch/markets/gdax/ethusd/ohlc",
         periods: 180,
@@ -52,6 +49,12 @@ export function ethOHLC(){
             let data = JSON.parse(response.data);
             let result = data.result;
             console.log('mmm',result[180]);
+
+            dispatch({
+                type: ETH_24HRS,
+                payload: result[180]
+            });
+
         }).catch(err=>{
             console.log('my errr',err);
         })
