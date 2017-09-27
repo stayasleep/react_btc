@@ -27,8 +27,8 @@ class Chart extends Component {
         const childHeight = height - margin.top - margin.bottom;
 
         const bisectDate = bisector(d => x(d)).left;
-
         if (prices.length === 0) return null;
+
         const x = d => new Date(d.day); //for each x point, formatted date
         const y = d => d.price; //for each y point
         const firstPoint = prices[0];
@@ -63,7 +63,6 @@ class Chart extends Component {
             range: [childHeight, 0],
             domain: [minPrice, maxPrice]
         });
-
         return (
             <div className="chart">
                 <svg width={width} height={height} ref={s => (this.svg = s)}>
