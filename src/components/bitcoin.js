@@ -41,7 +41,7 @@ class Bitcoin extends Component{
 
 
     render(){
-        const { screenWidth, screenHeight } = this.props; //gets screen size from HOC wSS
+        const { eth, screenWidth, screenHeight } = this.props; //gets screen size from HOC wSS
         const chartWidth = screenWidth*0.6;
         const chartHeight = screenHeight*0.8;
         console.log('my bit',this.props.btc);
@@ -51,11 +51,22 @@ class Bitcoin extends Component{
                 {day: day, price: this.props.btc[day]}
             )
         });
+        const ethIndex=eth.map((arr, index)=>{
+            // let date = new Date(arr[0] *1000);
+            return {time: arr[0], price: arr[4]};
+        });
+
         let priceDifference;
         let symbolDifference;
+        let ethDifference;
+        let ethValue;
         if(prices.length !== 0) {
             priceDifference = (prices[prices.length - 1].price - prices[prices.length - 2].price).toFixed(4);
             priceDifference > 0 ? symbolDifference = "+": symbolDifference = "-";
+        }
+        if(ethIndex.length !== 0){
+            ethValue = (ethIndex[ethIndex.length - 1].price - ethIndex[19].price).toFixed(4);
+            ethValue > 0 ? ethDifference = "+" : ethDifference = "-";
         }
 
         return(
@@ -65,15 +76,34 @@ class Bitcoin extends Component{
                     <div className="chartContainer" style={{width:`${chartWidth}px`, height:`${chartHeight}px`}}>
                         <div className="title">
                             <div className="btcTitle">
-                                {!this.state.onETH ?"Bitcoin Price Chart":"Ethereum 24HR Price Chart"}
+                                {!this.state.onETH ?"Bitcoin Price Chart" : "Ethereum 24HR Price Chart"}
                             </div>
-                            {Object.keys(this.props.btc).length === 0 ? (
-                                    <p> Loading...</p>
+                            {/*Sometimes we have to do things that are ugly*/}
+                            {!this.state.onETH ? (
+                                <div>
+                                    {Object.keys(this.props.btc).length === 0 ? (
+                                            <p> Loading...</p>
+                                        ) : (
+                                            <div className="currentAndDifference">
+                                                <div className="currentPrice"> CurrentPrice: {priceFormat(prices[prices.length - 1].price)}</div>
+                                                <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
+                                            </div>
+                                        )
+                                    }
+                                </div>
                                 ) : (
-                                    <div className="currentAndDifference">
-                                        <div className="currentPrice"> Current Price: {priceFormat(prices[prices.length-1].price)}</div>
-                                        <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
-                                    </div>
+                                <div>
+                                    {Object.keys(this.props.eth).length === 0 ? (
+                                        <p>Loading...</p>
+                                        ) : (
+                                        <div className="currentAndDifference">
+                                            <div className="currentPrice"> Current Price: {priceFormat(ethIndex[ethIndex.length - 1].price)}</div>
+                                            <div className={ethDifference === "+" ? "pos" : "neg" }>{ethDifference}{ethValue}</div>
+                                        </div>
+                                        )
+
+                                    }
+                                </div>
                                 )
                             }
                         </div>
@@ -116,7 +146,8 @@ function mapStateToProps(state) {
     return{
         btc: state.bitState.history,
         disclaimer: state.bitState.disclaimer,
-        ethDisclaimer: state.ethState.disclaimer
+        ethDisclaimer: state.ethState.disclaimer,
+        eth: state.ethState.historical
     }
 }
 

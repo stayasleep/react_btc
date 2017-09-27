@@ -11,9 +11,12 @@ $contents = json_decode($contents, true);
 $url = $contents['url'];
 $periods = $contents['periods'];
 
-$url = $url ."?periods=" . $periods;
-$gdax ="https://api.gdax.com/products/ETH-USD/candles?start=1504228961";
-//var_dump($url);
+$url_param = array("periods"=> $periods);
+
+//build the url
+$url = $url ."?". http_build_query($url_param);
+
+//$gdax ="https://api.gdax.com/products/ETH-USD/candles?start=1504228961";
 
 
 //GDAX requires user agent to be set, so we will randomly send a diff one each time
@@ -24,19 +27,21 @@ $agents = array(
     'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; da-dk) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1'
 
 );
+
 //get curl resource
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json', 'Content-Type: application/json'));
-curl_setopt($ch,CURLOPT_USERAGENT,$agents[array_rand($agents)]);
+curl_setopt($ch,CURLOPT_USERAGENT,$agents[array_rand($agents)]); //randomly pick 1 agent
 curl_setopt($ch, CURLOPT_URL, $url);
 
 $data = curl_exec($ch);
 
 //free up resources
 curl_close($ch);
+//
 $data = json_encode($data);
-//var_dump($data);
+
 print_r($data);
 ?>
