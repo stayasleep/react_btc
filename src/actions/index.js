@@ -17,7 +17,7 @@ export function btcPriceIndex(){
 export function btcHistorical(){
     return function (dispatch){
         axios.get("https://api.coindesk.com/v1/bpi/historical/close.json").then((response) =>{
-            console.log('historical',response.data.bpi.length);
+            //console.log('historical',response.data.bpi.length);
 
             if(Object.keys(response.data.bpi).length === 31){
                 dispatch({
@@ -36,19 +36,12 @@ export function ethOHLC(){
         url: "https://api.cryptowat.ch/markets/gdax/ethusd/ohlc",
         periods: 180,
     };
-    //
-    // let today = new Date();
-    // today = today.getTime(); //unix time in milliseconds
-    // let monthAgo = 2678400000; //one month in milliseconds
-    // let desiredTime = today - monthAgo;
-    // let formatTime = new Date(desiredTime);
-    // console.log('form me',formatTime);
 
     return function(dispatch){
         axios.post(`${BASE}`, data).then((response) =>{
             let data = JSON.parse(response.data);
             let result = data.result;
-            console.log('mmm',result[180]);
+            //console.log('eth api',result[180]);
 
             dispatch({
                 type: ETH_24HRS,
@@ -60,12 +53,3 @@ export function ethOHLC(){
         })
     }
 }
-// const url = "https://api.cryptowat.ch/markets/gdax/ethusd/ohlc";
-//
-// export function ethOHLC(){
-//     return function(dispatch){
-//         axios.get(`${url}?periods=180`).then((response) => {
-//             console.log('eth',response);
-//         })
-//     }
-// }

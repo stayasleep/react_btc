@@ -15,7 +15,6 @@ class Bitcoin extends Component{
     }
 
     switchCharts(){
-        console.log('switch lol');
         this.setState({onETH: !this.state.onETH});
     }
 
@@ -23,7 +22,7 @@ class Bitcoin extends Component{
 
     componentDidMount(){
         this.props.btcHistorical();
-        // this.props.ethOHLC();
+        this.props.ethOHLC();
     }
 
     background(width, height){
@@ -44,7 +43,6 @@ class Bitcoin extends Component{
         const { eth, screenWidth, screenHeight } = this.props; //gets screen size from HOC wSS
         const chartWidth = screenWidth*0.6;
         const chartHeight = screenHeight*0.8;
-        console.log('my bit',this.props.btc);
 
         const prices = Object.keys(this.props.btc).map((day) =>{
             return(
@@ -117,6 +115,7 @@ class Bitcoin extends Component{
                                 <Eth
                                     width={chartWidth}
                                     height={chartHeight}
+                                    ethIndex = {ethIndex}
                                 />
                             )
                         }

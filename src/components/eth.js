@@ -1,5 +1,4 @@
 import React,{ Component } from 'react';
-import { connect } from 'react-redux';
 import { bisector } from 'd3';
 import { ethOHLC } from '../actions/index';
 import {AxisBottom, AxisRight} from '@vx/axis';
@@ -13,28 +12,23 @@ import MinPrice from '../utilities/min_price';
 import priceFormat from '../utilities/price_format';
 
 class Eth extends Component {
-    componentWillMount(){
-        this.props.ethOHLC();
-    }
+
+    closing = (tooltipData) =>{
+        let close = new Date(tooltipData.time * 1000);
+        close = close.toLocaleTimeString();
+        return close;
+    };
 
     render(){
-        console.log('eth props',this.props);
-        const {height,hideTooltip, eth, showTooltip,tooltipData, tooltipLeft, tooltipTop, width} = this.props;
+        const {ethIndex, height,hideTooltip, eth, showTooltip,tooltipData, tooltipLeft, tooltipTop, width} = this.props;
         const margin = {top: 30, right: 0, bottom: 45, left: 15};
 
         const childHeight = height - margin.top- margin.bottom;
 
-        const loader = <div>Loading...</div>;
-        if (eth.length === 0) return null;
+        if (ethIndex.length === 0) return null;
+
 
         const bisectDate = bisector(d => x(d)).left;
-
-        const ethIndex=eth.map((arr, index)=>{
-            // let date = new Date(arr[0] *1000);
-            return {time: arr[0], price: arr[4]};
-        });
-
-        console.log('eth index',ethIndex);
 
         const x = d => new Date(d.time *1000);
         const y = d => d.price;
@@ -107,25 +101,25 @@ class Eth extends Component {
                         toOpacity={.2}
                         //defines the way we color in the graph
                     />
-                    <MaxPrice
-                        data={maxPriceData}
-                        yScale={yScale}
-                        xScale={xScale}
-                        x={x}
-                        y={y}
-                        yText={yScale(maxPrice)}
-                        label={maxPrice}
-                    />
-                    <MinPrice
-                        x={x}
-                        y={y}
-                        data={minPriceData}
-                        yScale={yScale}
-                        xScale={xScale}
-                        //label={minPrice}
-                        yText={yScale(minPrice)}
+                    {/*<MaxPrice*/}
+                        {/*data={maxPriceData}*/}
+                        {/*yScale={yScale}*/}
+                        {/*xScale={xScale}*/}
+                        {/*x={x}*/}
+                        {/*y={y}*/}
+                        {/*yText={yScale(maxPrice)}*/}
+                        {/*label={maxPrice}*/}
+                    {/*/>*/}
+                    {/*<MinPrice*/}
+                        {/*x={x}*/}
+                        {/*y={y}*/}
+                        {/*data={minPriceData}*/}
+                        {/*yScale={yScale}*/}
+                        {/*xScale={xScale}*/}
+                        {/*label={minPrice}*/}
+                        {/*yText={yScale(minPrice)}*/}
 
-                    />
+                    {/*/>*/}
 
 
                     <AreaClosed
@@ -192,7 +186,7 @@ class Eth extends Component {
                 </svg>
                 {tooltipData &&
                     <Tooltip style={{backgroundColor: "#141518", color:"#FFFFFF"}} top={tooltipTop+10} left={tooltipLeft+10}>
-                        Closing: {priceFormat(y(tooltipData))},
+                        Closing: {priceFormat(y(tooltipData))}, Time: {this.closing(tooltipData)}
                     </Tooltip>
                 }
             </div>
@@ -200,12 +194,5 @@ class Eth extends Component {
     }
 }
 
-function mapStateToProps(state){
-    return{
-        eth:state.ethState.historical,
-        disclaimer: state.ethState.disclaimer,
-    }
-}
 //if you dont wrap it withTooltip, then it will not be the proper component height
-export default connect(mapStateToProps,{ ethOHLC })(withTooltip(Eth));
-// export default connect(mapStateToProps,{ethOHLC})(Eth);
+export default withTooltip(Eth);
