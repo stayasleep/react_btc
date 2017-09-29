@@ -58,14 +58,20 @@ class Bitcoin extends Component{
         let symbolDifference;
         let ethDifference;
         let ethValue;
+        let ethPriceAtTime;
         if(prices.length !== 0) {
             priceDifference = (prices[prices.length - 1].price - prices[prices.length - 2].price).toFixed(4);
-            priceDifference > 0 ? symbolDifference = "+": symbolDifference = "-";
+            priceDifference > 0 ? symbolDifference = "+": null;
         }
         if(ethIndex.length !== 0){
-            ethValue = (ethIndex[ethIndex.length - 1].price - ethIndex[19].price).toFixed(4);
-            ethValue > 0 ? ethDifference = "+" : ethDifference = "-";
+            ethValue = (ethIndex[ethIndex.length - 1].price - ethIndex[19].price).toFixed(2);
+            ethValue > 0 ? ethDifference = "+" : null;
+            ethPriceAtTime = ethIndex[ethIndex.length -1].time;
+            ethPriceAtTime = new Date(ethPriceAtTime * 1000);
+            ethPriceAtTime = ethPriceAtTime.toLocaleString();
         }
+        console.log('m eth',ethIndex);
+        console.log('eth at',ethPriceAtTime);
 
         return(
             <div className="bitcoinComp">
@@ -83,7 +89,7 @@ class Bitcoin extends Component{
                                             <p> Loading...</p>
                                         ) : (
                                             <div className="currentAndDifference">
-                                                <div className="currentPrice"> CurrentPrice: {priceFormat(prices[prices.length - 1].price)}</div>
+                                                <div className="currentPrice"> Current Price: {priceFormat(prices[prices.length - 1].price)}</div>
                                                 <div className={symbolDifference === "+" ? "pos" : "neg"}>{symbolDifference}{priceDifference}</div>
                                             </div>
                                         )
@@ -95,8 +101,8 @@ class Bitcoin extends Component{
                                         <p>Loading...</p>
                                         ) : (
                                         <div className="currentAndDifference">
-                                            <div className="currentPrice"> Current Price: {priceFormat(ethIndex[ethIndex.length - 1].price)}</div>
-                                            <div className={ethDifference === "+" ? "pos" : "neg" }>{ethDifference}{ethValue}</div>
+                                            <div className="currentPrice">Price at {ethPriceAtTime}: {priceFormat(ethIndex[ethIndex.length - 1].price)}</div>
+                                            <div className={ethDifference === "+" ? "pos" : "neg" }>{ethDifference}{priceFormat(ethValue)}</div>
                                         </div>
                                         )
 
@@ -119,7 +125,6 @@ class Bitcoin extends Component{
                                 />
                             )
                         }
-
                     </div>
                     <div>
                         {!this.state.onETH ?

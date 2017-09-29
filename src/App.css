@@ -55,4 +55,6 @@
 }
 .eth{
     text-align: center;
+    color: crimson;
+    text-decoration: underline;
 }
