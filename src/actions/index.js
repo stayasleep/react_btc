@@ -29,7 +29,8 @@ export function btcHistorical(){
     }
 }
 
-const BASE = "http://localhost:8080/react_btc/data.php";
+// const BASE = "http://localhost:8080/react_btc/data.php";
+const BASE = "/data.php";
 
 export function ethOHLC(){
     let data ={
